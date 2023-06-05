@@ -1,52 +1,16 @@
 -- SQLBook: Markup
-# <span style="color:darkblue"> Lecture 18 - Import Tables in SQL </span>
-
-<font size = "5">
-
-In the previous class we ...
-
-- Connected to an SQL server
-- Introduced data manipulation basics
-
-In this class we will
-
-- Import data from ".csv" files
-- Review Entity Relationship Diagrams (ERD)
-- Merge tables
-
--- SQLBook: Markup
-# <span style="color:darkblue"> Lecture 17 - Introduction to SQL </span>
-
-<font size = "5">
-
-SQL is a language specializing in database management
-
-- Widely used in industry
-- Typical task is to extract data from server
-- Many concepts are similar to Python
--- SQLBook: Markup
-# <span style="color:darkblue"> II. Create SQL Table from Scratch </span>
+# <span style="color:darkblue"> Create SQL Table from Scratch </span>
 -- SQLBook: Markup
 <font size = "5">
 
 Delete existing table
 -- SQLBook: Code
--- If the table already exists we can drop it:
--- If it doesn't exist nothing happens
--- System commands are in upper case and user defined
--- names are in lower case
--- Comments are written with double dashes "--" rather than hastag (#)
-
 DROP TABLE IF EXISTS drivers;
 -- SQLBook: Markup
 <font size = "5">
 
 Create empty table from codebook
 -- SQLBook: Code
--- Create empty TABLE called "drivers"
--- This example has five arguments separated by a comma
--- that contain the "column_name" and "column_type", respectively
-
 CREATE TABLE drivers(
     driver_id int,
     driver_name varchar(30),
@@ -58,11 +22,6 @@ CREATE TABLE drivers(
 
 Add rows to table
 -- SQLBook: Code
--- "INSET INTO" adds rows with VALUES ... to the bottom of the table
--- In SQL different lines need to be separated by a semicolon ";"
--- You write system commands in capital letters to easily distinguish
--- column names from system commands
-
 INSERT INTO drivers  VALUES (1, 'Lewis Hamilton','British',103);
 
 INSERT INTO drivers  VALUES (4, 'Fernando Alonso', 'Spanish',32);
@@ -73,10 +32,7 @@ INSERT INTO drivers  VALUES (2, 'Michael Schumacher', 'German',53);
 
 -- SQLBook: Markup
 # <span style="color:darkblue"> II. Dataset Operations </span>
-
-
-<font size="5"> 
-
+-- SQLBook: Markup
 Extracting columns from table
 -- SQLBook: Code
 -- SELECT extracts certain COLUMNS
@@ -84,15 +40,11 @@ Extracting columns from table
 
 SELECT driver_id, nationality FROM drivers;
 -- SQLBook: Markup
-<font size="5"> 
-
 Extract all columns from table
 -- SQLBook: Code
 -- The symbol "*" is a shorthand for "all variables"
 SELECT * FROM drivers;
 -- SQLBook: Markup
-<font size = "5">
-
 Subsetting rows
 -- SQLBook: Code
 -- The WHERE command evaluates logical conditions to subset rows
@@ -108,8 +60,6 @@ SELECT * FROM drivers
 WHERE (nationality = 'German') AND (driver_id = 2);
 
 -- SQLBook: Markup
-<font size="5"> 
-
 Aggregate
 -- SQLBook: Code
 -- To compute aggregate statistics use a statistic function,
@@ -123,8 +73,6 @@ SELECT SUM(victories) AS sum_victories,
        MAX(victories) AS max_victories
 FROM drivers;
 -- SQLBook: Markup
-<font size="5"> 
-
 Sort
 -- SQLBook: Code
 -- Order in ascending order of victories
@@ -141,10 +89,8 @@ ORDER BY victories DESC;
 SELECT * FROM drivers
 WHERE nationality = 'German';
 -- SQLBook: Markup
-# <span style="color:darkblue"> III. Groupby + Chaining </span>
-
-<font size="5"> 
-
+# <span style="color:darkblue"> Groupby + Chaining </span>
+-- SQLBook: Markup
 Groupby + Aggregate
 -- SQLBook: Code
 -- This command computes summary statistics by nationalitySELECT COUNT(*) AS num_rows,
@@ -157,8 +103,6 @@ SELECT nationality,
 FROM drivers
 GROUP BY nationality;
 -- SQLBook: Markup
-<font size = "5">
-
 Subsetting **after** aggregating
 -- SQLBook: Code
 -- This command computes the same table as above
@@ -175,8 +119,6 @@ FROM drivers
 GROUP BY nationality
 HAVING SUM(victories) > 50;
 -- SQLBook: Markup
-<font size = "5">
-
 Subsetting **before** and **after** aggregating
 -- SQLBook: Code
 -- HAVING is the command you use to subset *after* aggregating
@@ -193,24 +135,8 @@ WHERE nationality = 'German'
 GROUP BY nationality
 HAVING SUM(victories) > 50;
 -- SQLBook: Markup
-# <span style="color:darkblue"> IV. Learning more </span>
-
-<font size = "5">
-
-Equivalence:
-
-**PYTHON** $\qquad \qquad \ \ $ **SQL** <br>
-```[] ``` $\qquad \qquad \qquad \ \ \ $ ```SELECT``` <br>
-```.query() ``` $\qquad \qquad $ ```WHERE``` (before aggregating) <br>
-```.query() ``` $\qquad \qquad $ ```HAVING``` (after aggregating) <br>
-```.groupby().agg() ``` $\ $ ```SELECT ... AS ... ```<br>
-$\qquad \qquad \qquad \qquad \ $```GROUP BY```<br>
-
+# <span style="color:darkblue"> Create Headers for Empty Table </span>
 -- SQLBook: Markup
-# <span style="color:darkblue"> I. Create Headers for Empty Table </span>
-
-<font size = "5">
-
 United States Congress dataset
 
 -- SQLBook: Code
@@ -223,8 +149,6 @@ United States Congress dataset
 -- An arrow with "|" and "Crow's" says that there is a single entity
 -- on the left for each one on the right.
 -- SQLBook: Markup
-<font size = "5">
-
 Create table from codebook/dictionary
 -- SQLBook: Code
 -- We start by deleting the old table
@@ -244,13 +168,6 @@ CREATE TABLE us_congress_members (
 );
 
 -- SQLBook: Code
--- (i) The NOT NULL option is a special restrition saying
---     that you are not allowed to enter missing data for this column
---     SQL includes a lot of data quality checks like this
---     to maintain data integrity.
--- (ii) The maximum length of the strings is another for of quality control
--- (iii) Include any column names with upper case in double quotations "..."
-
 DROP TABLE IF EXISTS bills_actions;
 
 CREATE TABLE bills_actions (
@@ -263,18 +180,7 @@ CREATE TABLE bills_actions (
         member_id   int
 );
 -- SQLBook: Markup
-<font size = "5">
-
-<span style="color:red"> Common Pitfall:</span>
-Include columns with upper case letter <br>
-in double quotations, e.g. "Congress"
-
--- SQLBook: Markup
-<font size = "5">
-
-Try it yourself!
-
-- Create a new table for "bills_subjects"
+Create a new table for "bills_subjects"
 -- SQLBook: Code
 -- Write your own code
 
@@ -287,68 +193,13 @@ CREATE TABLE bills_subjects (
     bill_subject    varchar(30)
 );
 -- SQLBook: Markup
-# <span style="color:darkblue"> II. Import CSV into SQL </span>
-
-<font size = "5">
-
-(a) **Connect** to your SQL server as in Lecture 17
-
-(b) **Copy the pathname** of the ".csv" file
-
-- Open the folder in VS-Code
-- Right click on the file
-- Select "Copy Path" and paste below
-
-$\quad$ <img src="figures/get_file_path.png" alt="drawing" width="400"/>
-
-
-(c) **Import row data**
-
-For the instructor's computer this is:
-
-<font size = "3">
-
-
-```sql
-COPY us_congress_members
-FROM 'D:\GitHub\qtm151spring2023\Lecture 18\data\us_congress_members.csv' ```
-WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
-```
--- SQLBook: Code
--- The argument associaated with COPY is the dataset in our server
--- The argument associaated with FROM is a filepath name
--- There are three options specified in WITH:
------  DELIMETER indicates values are comma separated ","
------  FORMAT indicates that this is a CSV
------  HEADER MATCH indicates that the first row contains column
------  names and should be ignored when importing.
+# <span style="color:darkblue"> Import CSV into SQL </span>
 
 -- SQLBook: Markup
-<font size = "5">
-
-Interpreting Error Messages:
--- SQLBook: Code
--- NOTE 1: Sometimes HEADER MATCH will give an error if the 
--- 'CSV' file contains columns that are out of order. If this happens
---  either edit the order of "CREATE TABLE" above
-
--- NOTE 2: Sometimes you will get an error if the table doesn't
--- already exist. If this happens, it means that you haven't
--- run the "CREATE TABLE" above.
--- SQL doesn't allow you to import data without specifying the
--- "codebook" first. In that sense it's quite different from Python.
-
-
--- SQLBook: Markup
-<font size = "5">
 Viewing the US Congress dataset
 -- SQLBook: Code
--- Write your own code
--- Note in the instructor's computer this is:
--- You just have to change the FROM argument
---
 COPY us_congress_members
-FROM 'C:\Users\Michael\Documents\GitHub\qtm151spring2023\Lecture 18\data\us_congress_members.csv'
+FROM 'C:\Users\...\data\us_congress_members.csv'
 WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 
 
@@ -356,9 +207,6 @@ WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 
 
 -- SQLBook: Markup
-<font size = "5">
-
-
 Copy the table "bills_actions.csv"
 
 -- SQLBook: Code
@@ -374,12 +222,8 @@ COPY bills_actions
 FROM 'C:\Users\Michael\Documents\GitHub\qtm151spring2023\Lecture 18\data\bills_actions.csv'
 WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 -- SQLBook: Markup
-# <span style="color:darkblue"> III. Merge Data </span>
-
-<font size = "5">
+# <span style="color:darkblue"> Merge Data </span>
 -- SQLBook: Markup
-<font size = "5">
-
 Count unique rows
 -- SQLBook: Code
 -- COUNT(DISTINCT ) computes the number of unique rows
@@ -390,15 +234,12 @@ SELECT COUNT(DISTINCT party_name) AS num_distinct_parties,
 FROM us_congress_members
 
 -- SQLBook: Markup
-<font size = "5">
 Display unique rows
 -- SQLBook: Code
 SELECT party_name       
 FROM us_congress_members
 GROUP BY party_name
 -- SQLBook: Markup
-<font size = "5">
-
 Count members of group
 -- SQLBook: Code
 SELECT party_name,       
@@ -406,8 +247,6 @@ SELECT party_name,
 FROM us_congress_members
 GROUP BY party_name;
 -- SQLBook: Markup
-<font size = "5">
-
 Merge Databases
 -- SQLBook: Code
 -- FROM indicates the primary dataset
