@@ -35,37 +35,26 @@ INSERT INTO drivers  VALUES (2, 'Michael Schumacher', 'German',53);
 -- SQLBook: Markup
 Extracting columns from table
 -- SQLBook: Code
--- SELECT extracts certain COLUMNS
--- FROM is used to indicate the source table
-
 SELECT driver_id, nationality FROM drivers;
 -- SQLBook: Markup
 Extract all columns from table
 -- SQLBook: Code
--- The symbol "*" is a shorthand for "all variables"
 SELECT * FROM drivers;
 -- SQLBook: Markup
 Subsetting rows
 -- SQLBook: Code
--- The WHERE command evaluates logical conditions to subset rows
 SELECT * FROM drivers
 WHERE nationality = 'German';
 
--- Evalute OR conditions
 SELECT * FROM drivers
 WHERE (nationality = 'United States') OR (nationality = 'Indian');
 
--- Evaluate AND conditions
 SELECT * FROM drivers
 WHERE (nationality = 'German') AND (driver_id = 2);
 
 -- SQLBook: Markup
 Aggregate
 -- SQLBook: Code
--- To compute aggregate statistics use a statistic function,
--- such as SUM() or AVG() 
--- The AS is an alias which assigns a name to the aggregate statistic
-
 SELECT SUM(victories) AS sum_victories,
        COUNT(*) AS num_rows,
        AVG(victories) AS mean_victories,
@@ -75,17 +64,13 @@ FROM drivers;
 -- SQLBook: Markup
 Sort
 -- SQLBook: Code
--- Order in ascending order of victories
--- Remember that * means that all columns are selected
+
 SELECT * FROM drivers
 ORDER BY victories ASC;
 
--- Order in descending order of victories
 SELECT * FROM drivers
 ORDER BY victories DESC;
 -- SQLBook: Code
--- The following code would NOT work because we used double quotations
--- "Double quotations" are used to refer to column names
 SELECT * FROM drivers
 WHERE nationality = 'German';
 -- SQLBook: Markup
@@ -93,8 +78,6 @@ WHERE nationality = 'German';
 -- SQLBook: Markup
 Groupby + Aggregate
 -- SQLBook: Code
--- This command computes summary statistics by nationalitySELECT COUNT(*) AS num_rows,
--- Including "nationality" (the grouping column) is optional in the select
 SELECT nationality,
        SUM(victories) AS sum_victories,
        AVG(victories) AS mean_victories,
@@ -105,11 +88,6 @@ GROUP BY nationality;
 -- SQLBook: Markup
 Subsetting **after** aggregating
 -- SQLBook: Code
--- This command computes the same table as above
--- then filters with HAVING
--- HAVING is the command you use to subset *after* aggregating
--- This differs from WHERE which is use to subset *before* aggregating
-
 SELECT nationality,
        SUM(victories) AS sum_victories,
        AVG(victories) AS mean_victories,
@@ -121,10 +99,6 @@ HAVING SUM(victories) > 50;
 -- SQLBook: Markup
 Subsetting **before** and **after** aggregating
 -- SQLBook: Code
--- HAVING is the command you use to subset *after* aggregating
--- This differs from WHERE, which is used to subset *before* aggregating
--- SQL differentiates the two types of subsetting
-
 SELECT nationality,
        SUM(victories) AS sum_victories,
        AVG(victories) AS mean_victories,
@@ -139,24 +113,11 @@ HAVING SUM(victories) > 50;
 -- SQLBook: Markup
 United States Congress dataset
 
--- SQLBook: Code
--- Active: 1675623542515@@127.0.0.1@5432@postgres
--- An entity relationship diagram presents, tables, attributes, and their
--- connection between them. This is called "Crow's foot" notation
--- because of the shape of the arrows, with three claws
-
--- Examples:
--- An arrow with "|" and "Crow's" says that there is a single entity
--- on the left for each one on the right.
 -- SQLBook: Markup
 Create table from codebook/dictionary
 -- SQLBook: Code
--- We start by deleting the old table
--- SQL does not allow you to create a table if one already exists
 DROP TABLE IF EXISTS us_congress_members;
 
--- Note in SQL the codebook is also called a "dictionary"
--- The option PRIMARY KEY indicates that this is the unique identifier
 CREATE TABLE us_congress_members (
         member_id    int PRIMARY KEY,
                full_name    varchar(30),
@@ -182,8 +143,6 @@ CREATE TABLE bills_actions (
 -- SQLBook: Markup
 Create a new table for "bills_subjects"
 -- SQLBook: Code
--- Write your own code
-
 DROP TABLE IF EXISTS bills_subjects;
 
 CREATE TABLE bills_subjects (
@@ -210,14 +169,6 @@ WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 Copy the table "bills_actions.csv"
 
 -- SQLBook: Code
--- Write your own code
--- Note in the instructor's computer this is:
--- You just have to change the FROM argument
---
--- COPY bills_actions
--- FROM 'D:\GitHub\qtm151spring2023\Lecture 18\data\bills_actions.csv'
--- WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
-
 COPY bills_actions
 FROM 'C:\Users\Michael\Documents\GitHub\qtm151spring2023\Lecture 18\data\bills_actions.csv'
 WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
@@ -226,9 +177,6 @@ WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 -- SQLBook: Markup
 Count unique rows
 -- SQLBook: Code
--- COUNT(DISTINCT ) computes the number of unique rows
--- "AS" is the alias or name of the statistic
-
 SELECT COUNT(DISTINCT party_name) AS num_distinct_parties,
        COUNT(*) AS num_members       
 FROM us_congress_members
@@ -249,18 +197,9 @@ GROUP BY party_name;
 -- SQLBook: Markup
 Merge Databases
 -- SQLBook: Code
--- FROM indicates the primary dataset
--- LEFT JOIN indicates the secondary dataset for merging
--- ON ... = ... is the matching column
--- We use the "." to indicate the key in each of the datasets
--- The format is
------  ON data1.key = data2.key
 
 SELECT * 
 FROM bills_actions
 LEFT JOIN us_congress_members
 ON us_congress_members.member_id  = bills_actions.member_id;
 
--- Note: This command may take a few seconds to run. This is normal
--- In the instructor's computer this took 2 min but may take more 
--- or less in your computer
